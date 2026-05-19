@@ -32,7 +32,7 @@ const EspacePub1: React.FC = () => {
 
   if (!isClient) return null;
 
-  const cb = Math.floor(Math.random() * 99999999999); // Génère un cb unique pour éviter le cache
+  //const cb = Math.floor(Math.random() * 99999999999); // Génère un cb unique pour éviter le cache
 
   return (
     <section className="bg-[#1a2a54] py-0 px-4 md:px-10 mb-20 md:mb-12 text-white h-[320px] md:h-[285px]">
@@ -42,30 +42,18 @@ const EspacePub1: React.FC = () => {
       <div className="max-w-screen-xl mx-auto" style={{ marginTop: -15 }}>
         <div className="flex justify-center">
           {isMobile ? (
-            <iframe
-              id="aa9b8ba7"
-              name="aa9b8ba7"
-              src={`https://adserver.cynomedia.com/www/delivery/afr.php?zoneid=2581111&cb=${cb}`}
-              frameBorder="0"
-              scrolling="no"
-              width="336"
-              height="280"
-              allow="autoplay"
-              style={{ border: "none" }}
-            ></iframe>
-          ) : (
-            <iframe
-              id="a031b91f"
-              name="a031b91f"
-              src={`https://adserver.cynomedia.com/www/delivery/afr.php?zoneid=2571111&cb=${cb}`}
-              frameBorder="0"
-              scrolling="no"
-              width="970"
-              height="250"
-              allow="autoplay"
-              style={{ border: "none" }}
-            ></iframe>
-          )}
+                //data-revive-zoneid="230"
+                <ins
+                  data-revive-zoneid="296"
+                  data-revive-id="16a6633e0a24be5cdd88d46adf91ea32"
+                ></ins>
+              ) : (
+                //data-revive-zoneid="229"
+                <ins
+                  data-revive-zoneid="297"
+                  data-revive-id="16a6633e0a24be5cdd88d46adf91ea32"
+                ></ins>                                
+              )}
         </div>
       </div>
     </section>

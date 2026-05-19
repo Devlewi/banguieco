@@ -29,13 +29,16 @@ export async function generateMetadata({ params }: Props) {
     const post = await fetchPostMeta(slug, locale);
     if (!post) return {};
 
-    // On nettoie l'extrait pour enlever les balises <p> et autres HTML
     const cleanDescription = he.decode(post.excerpt).replace(/<[^>]*>?/gm, "").trim();
-    
-    // On force l'URL vers le site public (Frontend)
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://www.bangui-eco.com";
+    
+    // Chemin exact correspondant à votre dossier : article/[slug]
     const frontendUrl = `${baseUrl}/${locale}/article/${slug}`;
-    //const frontendUrl = `https://www.bangui-eco.com/${locale}/post/${slug}`;
+
+    // On s'assure que l'image est bien présente et absolue
+    const imageUrl = post.featured_image && post.featured_image.startsWith('http') 
+      ? post.featured_image 
+      : `${baseUrl}/images/og-default.png`; // Ayez toujours une image de secours ici
 
     return {
       title: he.decode(post.title),
@@ -46,25 +49,31 @@ export async function generateMetadata({ params }: Props) {
       openGraph: {
         title: he.decode(post.title),
         description: cleanDescription,
-        images: [post.featured_image],
-        url: frontendUrl, // Correction ici : ne plus utiliser post.link
+        url: frontendUrl,
         type: "article",
-        siteName: "bangui-ECO",
+        siteName: "BANGUI-ECO",
+        images: [
+          {
+            url: imageUrl,
+            width: 1200, // Facebook recommande ces dimensions
+            height: 630,
+            alt: he.decode(post.title),
+          },
+        ],
       },
       twitter: {
         card: "summary_large_image",
         title: he.decode(post.title),
         description: cleanDescription,
-        images: [post.featured_image],
+        images: [imageUrl],
       },
     };
   } catch (error) {
     console.error("Metadata error:", error);
-    return {
-      title: "bangui-ECO",
-    };
+    return { title: "BANGUI-ECO" };
   }
 }
+
 export default async function PostPage({ params }: Props) {
   const { locale, slug } = await params;
   //console.log("Langue actuelle : ", locale);
