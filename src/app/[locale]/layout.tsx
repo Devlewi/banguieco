@@ -37,31 +37,29 @@ export default async function RootLayout(props: Props) {
       <head>
       
       
+              <Script
+  strategy="afterInteractive" // Gardez afterInteractive pour la performance
+  src="https://www.googletagmanager.com/gtag/js?id=G-KYG4T6YXD2"
+/>
+
+<Script id="google-analytics" strategy="afterInteractive">
+  {`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-KYG4T6YXD2', {
+      page_path: window.location.pathname,
+    });
+  `}
+</Script>
+
+
 <Script
           strategy="afterInteractive"
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9760088965124508"
           crossOrigin="anonymous"
         />
-
-{/*
-<Script
-    id="adsense-init"
-    strategy="afterInteractive"
-    dangerouslySetInnerHTML={{
-      __html: `
-        (adsbygoogle = window.adsbygoogle || []).push({
-          google_ad_client: "ca-pub-9760088965124508",
-          enable_page_level_ads: true
-        });
-      `,
-    }}
-  />
-*/}
-
-
-
-
 
 
 
@@ -248,6 +246,10 @@ export default async function RootLayout(props: Props) {
       </Script>
       </head>
       <body className="home page-template page-template-page-templates page-template-no-wrapper page-template-page-templatesno-wrapper-php page page-id-6 no-sidebar has-lb has-lb-sm ts-img-hov-fade layout-normal elementor-default elementor-kit-1049 elementor-page elementor-page-6">
+
+
+
+
         <IntlProvider locale={locale}>
           <>
             {/* .main-wrap */}
@@ -482,24 +484,7 @@ export default async function RootLayout(props: Props) {
           </Script>
         </IntlProvider>
       
-       {/* Google Analytics - Script async */}
-       <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-6G7NCZPPCJ"
-        />
-
-        {/* Google Analytics - Initialisation */}
-        <Script id="google-analytics">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-6G7NCZPPCJ', {
-              page_path: window.location.pathname,
-            });
-          `}
-        </Script>
-      </body>
+             </body>
     </html>
   );
 }
