@@ -1,11 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { notFound } from "next/navigation";
 
-import {
-  FaAngleDoubleRight,
-  FaHandPointRight,
-  FaImage,
-} from "react-icons/fa";
+import { FaAngleDoubleRight, FaHandPointRight, FaImage } from "react-icons/fa";
 import Link from "next/link";
 import ShareButtons from "@/app/ui/ShareButtons";
 import ThreeLastPostSimilComponent from "@/app/ui/ThreeLastPostSimilComponent";
@@ -14,12 +10,9 @@ import { getTranslation } from "@/app/utils/i18n";
 import SidebarLatestPosts from "@/app/ui/SidebarLatestPosts";
 import { fetchPost, fetchPostMeta } from "@/app/services/api";
 
-
-
 type Props = {
   params: Promise<{ locale: string; slug: string }>; // On ajoute slug ici
 };
-
 
 // ✅ Meta avec Promise pour params
 export async function generateMetadata({ params }: Props) {
@@ -28,22 +21,23 @@ export async function generateMetadata({ params }: Props) {
 
   try {
     let cleanSlug = decodeURIComponent(slug);
-    cleanSlug = cleanSlug.replace(/['’]/g, '');
+    cleanSlug = cleanSlug.replace(/['’]/g, "");
 
     // 💡 ON UTILISE fetchPost ICI AUSSI (Puisqu'on sait qu'il fonctionne parfaitement)
     const post = await fetchPost(cleanSlug, locale);
-    
+
     if (!post || !post.title) {
       return { title: defaultTitle };
     }
 
     // Extraction propre du texte du titre
     // ✅ Version corrigée pour TypeScript (sans toucher à votre logique)
-const targetPost = post as any;
+    const targetPost = post as any;
 
-const titleText = typeof targetPost.title === 'object' && targetPost.title?.rendered 
-  ? targetPost.title.rendered 
-  : targetPost.title;
+    const titleText =
+      typeof targetPost.title === "object" && targetPost.title?.rendered
+        ? targetPost.title.rendered
+        : targetPost.title;
 
     return {
       title: `${he.decode(titleText)} | Bangui Eco`,
@@ -53,7 +47,7 @@ const titleText = typeof targetPost.title === 'object' && targetPost.title?.rend
         description: post.excerpt ? he.decode(post.excerpt) : "",
         images: post.featured_image ? [post.featured_image] : [],
         type: "article",
-      }
+      },
     };
   } catch (error) {
     console.error("Erreur SEO generateMetadata :", error);
@@ -66,16 +60,16 @@ export default async function PostPage({ params }: Props) {
   //console.log("Langue actuelle : ", locale);
   //console.log("Slug de l'article : ", slug);
   //const { slug } = await params;
-const t = getTranslation(locale); // locale = "fr" ou "en"
-const latest = t.latest || '';
-const singulararticle = t.singulararticle || '';
-const articles = t.articles || '';
-const samecategory = t.samecategory || '';
-const whatsappLink = process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL;
+  const t = getTranslation(locale); // locale = "fr" ou "en"
+  const latest = t.latest || "";
+  const singulararticle = t.singulararticle || "";
+  const articles = t.articles || "";
+  const samecategory = t.samecategory || "";
+  const whatsappLink = process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL;
 
   try {
     const post = await fetchPost(slug, locale);
-  
+
     //console.log(post.related_articles);
     //console.log(post);
     if (!post || !post.id) return notFound();
@@ -95,8 +89,9 @@ const whatsappLink = process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL;
                 </span>
                 <FaAngleDoubleRight className="text-gray-500" />
 
-                
-                <Link href={`/${locale}/${category}/${post.categoriesdetails?.[0]?.slug}`}>
+                <Link
+                  href={`/${locale}/${category}/${post.categoriesdetails?.[0]?.slug}`}
+                >
                   <span className="truncate max-w-[150px]">
                     {decode(post.categoriesdetails?.[0]?.name) ?? "Catégorie"}
                   </span>
@@ -107,7 +102,9 @@ const whatsappLink = process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL;
               </div>
 
               {/* sub category */}
-              <Link href={`/${locale}/${category}/${post.categoriesdetails?.[0]?.slug}`}>
+              <Link
+                href={`/${locale}/${category}/${post.categoriesdetails?.[0]?.slug}`}
+              >
                 <div className="bg-[#db2e44] border border-gray-300 rounded-md px-4 py-1.5 mb-4 inline-block shadow-sm text-white">
                   {decode(post.categoriesdetails?.[0]?.name) ?? "Catégorie"}
                 </div>
@@ -125,44 +122,42 @@ const whatsappLink = process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL;
                 - {post.views} vues
               </p>
 
-              <ShareButtons locale={locale} singulararticle={singulararticle} post={post}  />
+              <ShareButtons
+                locale={locale}
+                singulararticle={singulararticle}
+                post={post}
+              />
               {/* locale,singulararticle,post */}
 
-              
-
               {post.featured_image ? (
-<>
-<div className="relative w-full mb-6 group">
-    {/* L'image principale */}
-    <img
-      src={post.featured_image}
-      alt={post.title}
-      loading="lazy"
-      className="w-full min-h-[200px] max-h-[500px] object-cover rounded-lg"
-    />
+                <>
+                  <div className="relative w-full mb-6 group">
+                    {/* L'image principale */}
+                    <img
+                      src={post.featured_image}
+                      alt={post.title}
+                      loading="lazy"
+                      className="w-full min-h-[200px] max-h-[500px] object-cover rounded-lg"
+                    />
 
-    {/* Le crédit photo positionné en étiquette en bas à droite de l'image */}
-    {post.photo_credit && (
-      <p className="absolute bottom-3 right-3 bg-black/65 text-white text-[11px] font-medium py-1 px-2.5 rounded italic shadow-sm pointer-events-none z-10 m-0 backdrop-blur-[2px]">
-        {post.photo_credit}
-      </p>
-    )}
-  </div>
-</>
+                    {/* Le crédit photo positionné en étiquette en bas à droite de l'image */}
+                    {post.photo_credit && (
+                      <p className="absolute bottom-3 right-3 bg-black/65 text-white text-[11px] font-medium py-1 px-2.5 rounded italic shadow-sm pointer-events-none z-10 m-0 backdrop-blur-[2px]">
+                        {post.photo_credit}
+                      </p>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="w-full h-[250px] md:h-[550px] flex items-center justify-center bg-gray-200 border border-gray-300 rounded-md mb-6">
+                  <div className="flex flex-col items-center justify-center space-y-2">
+                    <FaImage className="text-gray-400" size={64} />
+                    <span className="text-sm text-gray-400">Aucune image</span>
+                  </div>
+                </div>
+              )}
 
-) : (
-  <div className="w-full h-[250px] md:h-[550px] flex items-center justify-center bg-gray-200 border border-gray-300 rounded-md mb-6">
-  <div className="flex flex-col items-center justify-center space-y-2">
-    <FaImage className="text-gray-400" size={64} />
-    <span className="text-sm text-gray-400">Aucune image</span>
-  </div>
-</div>
-
-
-)}
-
-
-{/*
+              {/*
               <div
                 className="wp-content prose max-w-none text-base lg:text-[16px] wp-content" // Par défaut, taille de texte "base", sur desktop 16px
                 dangerouslySetInnerHTML={{ __html: post.content }}
@@ -170,54 +165,59 @@ const whatsappLink = process.env.NEXT_PUBLIC_WHATSAPP_CHANNEL_URL;
 
 */}
               <div
-    className="wp-content prose max-w-none text-base lg:text-[16px] 
+                className="wp-content prose max-w-none text-base lg:text-[16px] 
                [&_.wp-caption]:relative [&_.wp-caption]:block [&_.wp-caption]:!w-full [&_.wp-caption]:max-w-full [&_.wp-caption]:mb-6
                [&_.wp-caption_img]:w-full [&_.wp-caption_img]:h-auto [&_.wp-caption_img]:object-cover [&_.wp-caption_img]:rounded-lg
                [&_.wp-caption-text]:absolute [&_.wp-caption-text]:bottom-3 [&_.wp-caption-text]:right-3 
                [&_.wp-caption-text]:bg-black/65 [&_.wp-caption-text]:text-white [&_.wp-caption-text]:text-xs 
                [&_.wp-caption-text]:py-1 [&_.wp-caption-text]:px-2.5 [&_.wp-caption-text]:rounded [&_.wp-caption-text]:italic 
-               [&_.wp-caption-text]:m-0 [&_.wp-caption-text]:pointer-events-none" 
-    dangerouslySetInnerHTML={{ 
-      __html: post.content 
-        ? post.content.replace(/<p><strong>\s*LIRE AUSSI\s*:/gi, '<p class="lire-aussi-box"><strong>LIRE AUSSI :') 
-        : "" 
-    }}
-/>
+               [&_.wp-caption-text]:m-0 [&_.wp-caption-text]:pointer-events-none"
+                dangerouslySetInnerHTML={{
+                  __html: post.content
+                    ? post.content.replace(
+                        /<p><strong>\s*LIRE AUSSI\s*:/gi,
+                        '<p class="lire-aussi-box"><strong>LIRE AUSSI :',
+                      )
+                    : "",
+                }}
+              />
 
-              <br/>
+              <br />
               <div className="text-sm flex items-center">
-                                        <FaHandPointRight className="text-gray-500 mr-1" />
-                                        <a
-                                          href={`${whatsappLink}`}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          className="text-[#db2e44] no-underline hover:underline font-semibold"
-                                        >
-                                          {locale === "en"
-                                            ? "Follow the live information on our WHATSAPP channel"
-                                            : "Suivez l'information en direct sur notre chaîne WHATSAPP"}
-                                        </a>
-                                      </div>
+                <FaHandPointRight className="text-gray-500 mr-1" />
+                <a
+                  href={`${whatsappLink}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#db2e44] no-underline hover:underline font-semibold"
+                >
+                  {locale === "en"
+                    ? "Follow the live information on our WHATSAPP channel"
+                    : "Suivez l'information en direct sur notre chaîne WHATSAPP"}
+                </a>
+              </div>
             </article>
 
-            
             <section className="related-posts mt-[80px]">
               <div className="block-head block-head-ac block-head-c is-left">
                 <h4 className="heading">
-                  {articles} <span className="text-[#db2e44]"> {samecategory}</span>
+                  {articles}{" "}
+                  <span className="text-[#db2e44]"> {samecategory}</span>
                 </h4>
               </div>
-              <ThreeLastPostSimilComponent relatedArticles={post.related_articles} locale={locale} />
-
+              <ThreeLastPostSimilComponent
+                relatedArticles={post.related_articles}
+                locale={locale}
+              />
             </section>
           </div>
 
           {/* Section pub / contenu secondaire */}
           <SidebarLatestPosts
-  locale={locale}
-  latest={latest}
-  articles={articles}
-/>
+            locale={locale}
+            latest={latest}
+            articles={articles}
+          />
         </div>
       </div>
     );

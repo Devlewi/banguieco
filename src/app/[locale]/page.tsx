@@ -13,7 +13,8 @@ import NinthSectionComponent from "../ui/NinthSectionComponent";
 import EspacePub2 from "../ui/EspacePub2";
 //import PubReportageSectionComponent from "../ui/PubReportageSectionComponent";
 import BrandSectionComponent from "../ui/BrandSectionComponent";
-import PubReportageSectionComponent from "../ui/PubReportageSectionComponent";
+import NetworkNewsSectionComponent from "../ui/NetworkNewsComponent";
+//import PubReportageSectionComponent from "../ui/PubReportageSectionComponent";
 //import { getTranslation } from "../utils/i18n";
 
 
@@ -205,11 +206,13 @@ export default async function Home({ params }: Props) {
 
           {/* section 8: publicite reportage */}
           
+          {/*
           <PubReportageSectionComponent
             locale={locale}
             dataPost={latestPubliciteReportage}/>
 
-
+          */}
+          <NetworkNewsSectionComponent locale={locale}/>
 
           {/* section 12 : */}
           <NinthSectionComponent/>
